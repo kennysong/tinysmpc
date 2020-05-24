@@ -4,7 +4,7 @@ A minimal implementation of secure multi-party computation in pure Python.
 
 ## Overview
 
-Create a few `VirtualMachines`.
+Create a few `VirtualMachine`s.
 
 ```python
 alice = VirtualMachine('alice')
@@ -18,7 +18,7 @@ a = PrivateScalar(25, alice)
 b = PrivateScalar(50, bob)
 ```
 
-Use additive secret sharing to distribute an encrypted fraction of each number to each machine.
+Distribute an encrypted fraction of each number to each machine (this uses additive secret sharing).
 
 ```python
 shared_a = a.share([bob])
@@ -33,12 +33,12 @@ shared_output =  (shared_a * shared_b) - 5 * (shared_a + shared_b)
 
 Decrypt the output of the function by sending all encrypted fractions to Alice (or vice versa).
 
-Alice has no idea what Bob's input was (or vice versa)!
-
 ```python
 shared_output.reconstruct(alice)
 >>> PrivateScalar(875, 'alice')
 ```
+
+Alice has no idea what Bob's input was (or vice versa)!
 
 ## Status
 
