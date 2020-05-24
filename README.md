@@ -42,7 +42,7 @@ shared_output.reconstruct(alice)
 >>> PrivateScalar(875, 'alice')
 ```
 
-We've computed a function over Alice and Bob's data, but Alice has no idea what Bob's input was (and vice versa)!
+Alice and Bob have jointly computed a function over their data, but Alice has no idea what Bob's input was (and vice versa)!
 
 ## Status
 
