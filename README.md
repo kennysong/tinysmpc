@@ -4,7 +4,7 @@ A minimal implementation of secure multi-party computation in pure Python.
 
 ## Overview
 
-Create a few `VirtualMachine`s.
+Create a few `VirtualMachines`.
 
 ```python
 alice = VirtualMachine('alice')
@@ -51,7 +51,7 @@ Todos:
 - [ ] Clean up intermediate `Shares` used in arithmetic operations from `VirtualMachines`
 
 Done:
-- [x] Get `PrivateScalar`s on `VirtualMachine`s
+- [x] Get `PrivateScalars` onto `VirtualMachines`
 - [x] Share a `PrivateScalar` into a `SharedScalar`
 - [x] Implement shared addition
 - [x] Implement shared multiplication
