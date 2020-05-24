@@ -1,8 +1,12 @@
 # MicroSMPC
 
-A minimal implementation of secure multi-party computation in pure Python.
+A minimal implementation of secure multi-party computation, in pure Python!
+
+More useful for pedagogical rather than practical purposes. 
 
 ## Overview
+
+The goal is to allow multiple users/machines to collaboratively compute a function over their secret data (e.g. average, equality, logistic regression), while not exposing anyone's secret data.
 
 Create a few `VirtualMachines`.
 
