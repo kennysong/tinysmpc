@@ -25,13 +25,13 @@ shared_a = a.share([bob])
 shared_b = b.share([alice])
 ```
 
-Compute any arithmetic function over the encrypted fractions.
+Compute any arithmetic function over the encrypted shares.
 
 ```python
 shared_output =  (shared_a * shared_b) - 5 * (shared_a + shared_b)
 ```
 
-Decrypt the output of the function by sending all encrypted fractions to Alice (or vice versa).
+Decrypt the output of the function by sending all encrypted shares to Alice (or vice versa).
 
 ```python
 shared_output.reconstruct(alice)
