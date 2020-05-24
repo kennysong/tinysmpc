@@ -35,14 +35,14 @@ Compute any arithmetic function over the encrypted shares.
 shared_output =  (shared_a * shared_b) - 5 * (shared_a + shared_b)
 ```
 
-Decrypt the output of the function by sending all encrypted shares to Alice (or vice versa).
+Decrypt the function's output by sending all encrypted shares to Alice (or vice versa).
 
 ```python
 shared_output.reconstruct(alice)
 >>> PrivateScalar(875, 'alice')
 ```
 
-Alice has no idea what Bob's input was (or vice versa)!
+We've computed a function over Alice and Bob's data, but Alice has no idea what Bob's input was (and vice versa)!
 
 ## Status
 
