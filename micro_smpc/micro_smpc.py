@@ -27,7 +27,7 @@ class PrivateScalar():
         values = [randrange(Q) for _ in machines]
         values.append((self.value - sum(values)) % Q)
         
-        # Give shares to each machine
+        # Give one share to each machine
         shares = [Share(value, machine) for value, machine in
                   zip(values, machines + [self.owner])]
         
@@ -103,7 +103,7 @@ class SharedScalar():
             a, b = randrange(Q), randrange(Q)
             c = (a * b) % Q
 
-            # Share the triple
+            # Share the triple across machines
             rand_owner = choice(self.shares).owner
             other_owners = list(self.owners - {rand_owner})
             shared_a = PrivateScalar(a, rand_owner).share(other_owners)
@@ -128,6 +128,5 @@ class SharedScalar():
     
     def __repr__(self):
         string = 'SharedScalar(\n'
-        for share in self.shares:
-            string += f'    {share}\n'
+        for share in self.shares: string += f'    {share}\n'
         return string + ')'
