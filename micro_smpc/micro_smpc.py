@@ -94,7 +94,7 @@ class Share():
         return self.__mul__(other)
     
     def __repr__(self):
-        return f'Share({self.value}, \'{self.owner.name}\', {self.Q})'
+        return f'Share({self.value}, \'{self.owner.name}\', Q={self.Q})'
     
 class SharedScalar():
     '''A class that tracks all secret shares that corresponds to one PrivateScalar.
