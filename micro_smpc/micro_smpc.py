@@ -18,7 +18,7 @@ class PrivateScalar():
         self.owner = owner
         owner.objects.append(self)
 
-    def share(self, machines):
+    def share(self, machines, Q=Q):
         # Make sure we're sharing across unique machines
         assert self.owner not in machines
         assert len(machines) == len(set(machines))
@@ -32,7 +32,7 @@ class PrivateScalar():
                   zip(values, machines + [self.owner])]
         
         # Return a SharedScalar that tracks all of these shares
-        return SharedScalar(shares)
+        return SharedScalar(shares, Q=Q)
     
     def __repr__(self):
         return f'PrivateScalar({self.value}, \'{self.owner.name}\')'
@@ -47,15 +47,16 @@ class Share():
         return f'Share({self.value}, \'{self.owner.name}\')'
     
 class SharedScalar():
-    def __init__(self, shares):
+    def __init__(self, shares, Q=Q):
         self.shares = shares
         self.owners = {share.owner for share in shares}
         self.share_of = {share.owner: share for share in shares}
+        self.Q = Q
         
     def reconstruct(self, owner):
         assert owner in self.owners        
         values = [share.value for share in self.shares]
-        value = sum(values) % Q
+        value = sum(values) % self.Q
         return PrivateScalar(value, owner)
     
     # Called by: self + other
@@ -63,7 +64,7 @@ class SharedScalar():
         # Addition of a SharedScalar and a public integer known to all machines
         if isinstance(other, int):
             new_share = Share(self.shares[0].value + other, self.shares[0].owner)
-            return SharedScalar([new_share] + self.shares[1:])
+            return SharedScalar([new_share] + self.shares[1:], Q=self.Q)
         
         # Addition of two SharedScalars
         elif isinstance(other, SharedScalar):
@@ -71,9 +72,9 @@ class SharedScalar():
             sum_shares = []
             for owner in self.owners:
                 self_share, other_share = self.share_of[owner], other.share_of[owner] 
-                sum_share = Share((self_share.value + other_share.value) % Q, owner)
+                sum_share = Share((self_share.value + other_share.value) % self.Q, owner)
                 sum_shares.append(sum_share)
-            return SharedScalar(sum_shares)
+            return SharedScalar(sum_shares, Q=self.Q)
         
     # Called by: other + self (when other is not a SharedScalar)
     def __radd__(self, other):
@@ -93,22 +94,22 @@ class SharedScalar():
         if isinstance(other, int):
             prod_shares = [Share(share.value * other, share.owner) 
                            for share in self.shares]
-            return SharedScalar(prod_shares)
+            return SharedScalar(prod_shares, Q=self.Q)
             
         # Multiplication of two SharedScalars
         elif isinstance(other, SharedScalar):
             assert self.owners == other.owners
 
             # Generate a random multiplication triple
-            a, b = randrange(Q), randrange(Q)
-            c = (a * b) % Q
+            a, b = randrange(self.Q), randrange(self.Q)
+            c = (a * b) % self.Q
 
             # Share the triple across machines
             rand_owner = choice(self.shares).owner
             other_owners = list(self.owners - {rand_owner})
-            shared_a = PrivateScalar(a, rand_owner).share(other_owners)
-            shared_b = PrivateScalar(b, rand_owner).share(other_owners)
-            shared_c = PrivateScalar(c, rand_owner).share(other_owners)
+            shared_a = PrivateScalar(a, rand_owner).share(other_owners, Q=self.Q)
+            shared_b = PrivateScalar(b, rand_owner).share(other_owners, Q=self.Q)
+            shared_c = PrivateScalar(c, rand_owner).share(other_owners, Q=self.Q)
 
             # Compute (shared) self - a, other - b
             shared_self_m_a = self - shared_a
