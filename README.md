@@ -1,4 +1,4 @@
-# TinySMPC
+# TinySMPC 🛡️
 
 A tiny library for [secure multi-party computation](https://en.wikipedia.org/wiki/Secure_multi-party_computation), in pure Python!
 
