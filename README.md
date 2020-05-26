@@ -1,8 +1,8 @@
-# MicroSMPC
+# TinySMPC
 
-A minimal implementation of secure multi-party computation, in pure Python!
+A tiny library for [secure multi-party computation](https://en.wikipedia.org/wiki/Secure_multi-party_computation), in pure Python!
 
-More useful for pedagogical rather than practical purposes. 
+This code is intended for educational rather than practical purposes. It exposes a simple API, and the underlying implementation is kept minimalistic and well commented. 
 
 ## Overview
 
