@@ -3,8 +3,8 @@ from random import choice, randrange
 Q = 18446744073709551557  # Largest prime below 2^64
 
 class VirtualMachine():
-    '''A very simple class that represents a machine. 
-       It has a name and collects objects (PrivateScalars and Shares).'''
+    '''A very simple class that represents a machine's data. 
+       It just has a name and owns objects (PrivateScalars and Shares).'''
     def __init__(self, name):
         self.name = name
         self.objects = []
