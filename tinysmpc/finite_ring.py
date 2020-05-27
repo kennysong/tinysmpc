@@ -1,6 +1,6 @@
 # This module provides useful functions for operating on integers in a finite ring.
 #
-# (Any integers that is shared in tinysmpc must be an element of a finite ring.
+# (Any integer that is *shared* in tinysmpc must be an element of a finite ring.
 #  By default, this is the int64 ring, but we also support modulus prime rings.)
 #
 # Mathematical note:
@@ -24,7 +24,8 @@
 
 from random import randint, randrange
 
-# By default, all numbers in tinysmpc are treated as int64s.
+# Anywhere in the codebase, if Q is None, that means we're computing with int64s!
+# This is the default behavior. (See the mathematical note above for why.)
 MAX_INT64 =  9223372036854775807
 MIN_INT64 = -9223372036854775808
 
