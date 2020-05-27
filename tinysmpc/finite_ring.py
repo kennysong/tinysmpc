@@ -3,13 +3,12 @@
 # (Any integers that is shared in tinysmpc must be an element of a finite ring.
 #  By default, this is the int64 ring, but we also support modulus prime rings.)
 #
-#
 # Mathematical note:
 #
 # For additive secret sharing to work, we need all of the numbers we're working with
 # to be in a finite abelian group under addition. [1] 
 # 
-# Technically, for SMPC with additive secret sharing, we'd probably like to be able to 
+# Technically, for SMPC over additive secret sharing, we'd probably like to be able to 
 # multiply integers as well, so we're actually operating in a ring.
 # 
 # This is not a problem, because int64 is a finite ring! [2]

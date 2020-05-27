@@ -1,5 +1,6 @@
-from .finite_ring import mod, rand_element, assert_is_element
-from random import choice 
+from .finite_ring import assert_is_element, mod, rand_element 
+from .shared_addition import add_2sh, add_sh_pub
+from .shared_multiplication import mult_2sh, mult_sh_pub
 
 class VirtualMachine():
     '''A very simple class that represents a machine's data. 
@@ -14,7 +15,7 @@ class VirtualMachine():
         return string
 
 class PrivateScalar():
-    '''A class that represents a (secret) number that belongs to a machine.'''
+    '''A class that represents a secret number that belongs to a machine.'''
     def __init__(self, value, owner):
         self.value = value
         self.owner = owner
@@ -53,50 +54,44 @@ class Share():
         self.Q = Q
         owner.objects.append(self)
     
-    # Called by: self + other
     def __add__(self, other):
-        # Addition of a Share and a public integer known to all machines
-        if isinstance(other, int):
-            sum_value = mod(self.value + other, self.Q)
-
-        # Addition of two Shares
-        elif isinstance(other, Share):
-            assert_can_operate(self, other)
-            sum_value = mod(self.value + other.value, self.Q)
-
+        '''Called by: self + other.'''
+        self._assert_can_operate(other)
+        other_value = other if isinstance(other, int) else other.value 
+        sum_value = mod(self.value + other_value, self.Q)
         return Share(sum_value, self.owner, self.Q)
     
-    # Called by: other + self (when other is not a Share)
     def __radd__(self, other):
+        '''Called by: other + self (when other is not a Share).'''
         return self.__add__(other)
     
-    # Called by: self - other
     def __sub__(self, other):
+        '''Called by: self - other.'''
         return self.__add__(-1*other)
     
-    # Called by: other - self (when other is not a Share)
     def __rsub__(self, other):
+        '''Called by: other - self (when other is not a Share).'''
         return (-1*self).__add__(other)
     
-    # Called by: self * other
     def __mul__(self, other):
-        # Multiplication of a Share and a public integer known to all machines
-        if isinstance(other, int):
-            prod_value = mod(self.value * other, self.Q)
-
-        # Multiplication of two Shares
-        elif isinstance(other, Share):
-            assert_can_operate(self, other)
-            prod_value = mod(self.value * other.value, self.Q)
-
+        '''Called by: self * other.'''
+        self._assert_can_operate(other)
+        other_value = other if isinstance(other, int) else other.value
+        prod_value = mod(self.value * other_value, self.Q)
         return Share(prod_value, self.owner, self.Q)
     
-    # Called by: other * self (when other is not a Share)  
     def __rmul__(self, other):
+        '''Called by: other * self (when other is not a Share).'''
         return self.__mul__(other)
     
     def __repr__(self):
         return f'Share({self.value}, \'{self.owner.name}\', Q={self.Q})'
+    
+    def _assert_can_operate(self, other):
+        '''Assert that both Shares have the same owners and rings.'''
+        if isinstance(other, int): return  # It's okay to do operations with any public integers
+        assert self.owner == other.owner, f'{self} and {other} do not have the same owners.'
+        assert self.Q == other.Q, f'{self} and {other} are not over the same rings.'
     
 class SharedScalar():
     '''A class that tracks all secret shares that corresponds to one PrivateScalar.
@@ -104,8 +99,8 @@ class SharedScalar():
     def __init__(self, shares, Q=None):
         if Q is None: assert all(share.Q == Q for share in shares)
         self.shares = shares
-        self.owners = {share.owner for share in shares}
         self.share_of = {share.owner: share for share in shares}
+        self.owners = {share.owner for share in shares}
         self.Q = Q
         
     def reconstruct(self, owner):
@@ -113,74 +108,31 @@ class SharedScalar():
         values = [share.value for share in self.shares]
         value = mod(sum(values), self.Q)
         return PrivateScalar(value, owner)
-    
-    # Called by: self + other
-    def __add__(self, other):
-        # Addition of a SharedScalar and a public integer known to all machines
-        if isinstance(other, int):
-            # To do the addition, we add the integer to one (random) share only
-            new_share = self.shares[0] + other
-            return SharedScalar([new_share] + self.shares[1:], Q=self.Q)
-
-        # Addition of two SharedScalars
-        elif isinstance(other, SharedScalar):
-            # To do the addition, we add each machine's shares together
-            assert_can_operate(self, other)
-            sum_shares = [self.share_of[owner] + other.share_of[owner]
-                          for owner in self.owners]
-            return SharedScalar(sum_shares, Q=self.Q)
         
-    # Called by: other + self (when other is not a SharedScalar)
+    def __add__(self, other):
+        '''Called by: self + other.'''
+        if isinstance(other, int):            return add_sh_pub(self, other)
+        elif isinstance(other, SharedScalar): return add_2sh(self, other)
+        
     def __radd__(self, other):
+        '''Called by: other + self (when other is not a SharedScalar).'''
         return self.__add__(other)
     
-    # Called by: self - other
     def __sub__(self, other):
+        '''Called by: self - other.'''
         return self.__add__(-1*other)
     
-    # Called by: other - self (when other is not a SharedScalar)
     def __rsub__(self, other):
+        '''Called by: other - self (when other is not a SharedScalar).'''
         return (-1*self).__add__(other)
     
-    # Called by: self * other
     def __mul__(self, other):
-        # Multiplication of a SharedScalar and a public integer known to all machines
-        if isinstance(other, int):
-            # To do the multiplication, we multiply the integer with all shares
-            prod_shares = [share * other for share in self.shares]
-            return SharedScalar(prod_shares, Q=self.Q)
+        '''Called by: self * other.'''
+        if isinstance(other, int):            return mult_sh_pub(self, other)
+        elif isinstance(other, SharedScalar): return mult_2sh(self, other)
             
-        # Multiplication of two SharedScalars
-        elif isinstance(other, SharedScalar):
-            # To do the multiplication, we do the SPDZ protocol as described in:
-            # https://bristolcrypto.blogspot.com/2016/10/what-is-spdz-part-2-circuit-evaluation.html
-            assert_can_operate(self, other)
-
-            # Generate a random multiplication triple (public)
-            a, b = rand_element(self.Q), rand_element(self.Q)
-            c = mod(a * b, self.Q)
-
-            # Share the triple across machines
-            rand_owner = choice(self.shares).owner
-            other_owners = list(self.owners - {rand_owner})
-            shared_a = PrivateScalar(a, rand_owner).share(other_owners, Q=self.Q)
-            shared_b = PrivateScalar(b, rand_owner).share(other_owners, Q=self.Q)
-            shared_c = PrivateScalar(c, rand_owner).share(other_owners, Q=self.Q)
-
-            # Compute self - a, other - b (shared)
-            shared_self_m_a = self - shared_a
-            shared_other_m_b = other - shared_b
-
-            # Reconstruct self - a, other - b (public)
-            self_m_a = shared_self_m_a.reconstruct(rand_owner).value
-            other_m_b = shared_other_m_b.reconstruct(rand_owner).value
-            
-            # Magic! Compute each machine's share of the product
-            shared_prod = shared_c + (self_m_a * shared_b) + (other_m_b * shared_a) + (self_m_a * other_m_b)
-            return shared_prod
-            
-    # Called by: other * self (when other is not a SharedScalar)  
     def __rmul__(self, other):
+        '''Called by: other * self (when other is not a SharedScalar).'''
         return self.__mul__(other)
     
     def __repr__(self):
@@ -188,11 +140,7 @@ class SharedScalar():
         for share in self.shares: string += f'    {share}\n'
         return string + ')'
     
-def assert_can_operate(x, y):
-    '''Assert that x and y have the same owners and rings.'''
-    if isinstance(x, SharedScalar):
-        assert x.owners == y.owners, f'{x} and {y} do not have the same owners.'
-        assert x.Q == y.Q, f'{x} and {y} are not over the same rings.'
-    else:
-        assert x.owner == y.owner, f'{x} and {y} do not have the same owners.'
-        assert x.Q == y.Q, f'{x} and {y} are not over the same rings.'
+    def _assert_can_operate(self, other):
+        '''Assert that both SharedScalars have the same owners and rings.'''
+        assert self.owners == other.owners, f'{self} and {other} do not have the same owners.'
+        assert self.Q == other.Q, f'{self} and {other} are not over the same rings.'
