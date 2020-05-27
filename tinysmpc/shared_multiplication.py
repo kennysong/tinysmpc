@@ -11,38 +11,40 @@
 # constructor.
 
 from .finite_ring import mod, rand_element
+from .secret_share import n_to_shares
 from random import choice
 
 def mult_2sh(sh1, sh2):
     '''Implements multiplication on two SharedScalars.'''
     # To do the multiplication, we do the SPDZ protocol as described in:
     # https://bristolcrypto.blogspot.com/2016/10/what-is-spdz-part-2-circuit-evaluation.html
-    sh1._assert_can_operate(sh2)
     
-    # A necessary evil. I can't think of a way around this dynamic import yet.
-    from .tinysmpc import PrivateScalar
+    # Make sure that these two SharedScalars are compatible 
+    sh1._assert_can_operate(sh2)
     
     # Generate a random multiplication triple (public)
     a, b = rand_element(sh1.Q), rand_element(sh1.Q)
     c = mod(a * b, sh1.Q)
 
-    # Share the triple across machines
-    rand_owner = choice(sh1.shares).owner
-    other_owners = list(sh1.owners - {rand_owner})
-    shared_a = PrivateScalar(a, rand_owner).share(other_owners, Q=sh1.Q)
-    shared_b = PrivateScalar(b, rand_owner).share(other_owners, Q=sh1.Q)
-    shared_c = PrivateScalar(c, rand_owner).share(other_owners, Q=sh1.Q)
+    # Share the triple across all machines
+    # (It'd be nicer to use the higher-level PrivateScalar.share() here, 
+    # but we don't have access to PrivateScalar in this module.)
+    machines = list(sh1.owners)
+    shared_a = type(sh1)(n_to_shares(a, machines, sh1.Q), sh1.Q)
+    shared_b = type(sh1)(n_to_shares(b, machines, sh1.Q), sh1.Q)
+    shared_c = type(sh1)(n_to_shares(c, machines, sh1.Q), sh1.Q)
 
     # Compute sh1 - a, sh2 - b (shared)
-    shared_self_m_a = sh1 - shared_a
-    shared_other_m_b = sh2 - shared_b
+    shared_sh1_m_a = sh1 - shared_a
+    shared_sh2_m_b = sh2 - shared_b
 
     # Reconstruct sh1 - a, sh2 - b (public)
-    self_m_a = shared_self_m_a.reconstruct(rand_owner).value
-    other_m_b = shared_other_m_b.reconstruct(rand_owner).value
+    rand_machine = choice(machines)
+    sh1_m_a = shared_sh1_m_a.reconstruct(rand_machine).value
+    sh2_m_b = shared_sh2_m_b.reconstruct(rand_machine).value
 
     # Magic! Compute each machine's share of the product
-    shared_prod = shared_c + (self_m_a * shared_b) + (other_m_b * shared_a) + (self_m_a * other_m_b)
+    shared_prod = shared_c + (sh1_m_a * shared_b) + (sh2_m_b * shared_a) + (sh1_m_a * sh2_m_b)
     return shared_prod
 
 def mult_sh_pub(sh, pub):

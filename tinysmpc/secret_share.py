@@ -10,11 +10,9 @@ class Share():
         self.Q = Q
         owner.objects.append(self)
         
-    def move_to(self, owner):
-        '''Move a Share to a different owner/machine.'''
-        owner.objects.append(self)
-        self.owner.objects.remove(self)
-        self.owner = owner
+    def send_to(self, owner):
+        '''Send a copy of a Share to a different owner/machine.'''
+        return Share(self.value, owner, self.Q)
     
     def __add__(self, other):
         '''Called by: self + other.'''
@@ -75,7 +73,7 @@ def n_to_shares(n, owners, Q=None):
 def n_from_shares(shares, owner, Q=None):
     '''Given a list of additive secret Shares, reconstruct the integer value they're hiding.'''
     # First, move all shares onto one machine
-    for share in shares: share.move_to(owner)
+    local_shares = [share.send_to(owner) for share in shares]
     
     # Now, reconstruct the original value (we just add the shares!)
-    return sum(shares).value
+    return sum(local_shares).value
