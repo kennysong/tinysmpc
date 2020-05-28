@@ -1,7 +1,7 @@
-# This module defines comparison on a SharedScalar and public integer.
+# This module defines comparison between a SharedScalar and public integer,
+# using the PrivateCompare algorithm in SecureNN [1]. 
 #
-# To do this, we implement the PrivateCompare algorithm in [1]. The 
-# notation used here is as close to the paper's as possible.
+# The notation used here is as close to the paper's as possible.
 #
 # [1] Algorithm 3 in https://eprint.iacr.org/2018/442.pdf
 
@@ -24,7 +24,8 @@
 #      bitwise sharing scheme.
 #      ^This would add too much complexity.
 #
-# Alternatively, you can use the _private_compare() function here directly. TODO
+# Alternatively, you can also directly use _share_bitwise() and _private_compare()
+# from this module on unshared integers to generate fresh bitwise shares.
 
 # Small hack:
 #
@@ -45,14 +46,14 @@ L = 64  # Number of bits of the integers we're using
 
 def greater_than(x_sh, pub):
     '''Provides the high-level API for comparing x_sh (SharedScalar) > pub (int).
-       This basically does some tinysmpc-specific setup before calling PrivateCompare.'''
+       This basically does some TinySMPC-specific setup before calling PrivateCompare.'''
     # Reconstruct the private value on a temporary VM (see the Security Note above)
     from .tinysmpc import VirtualMachine
     tmp_vm = VirtualMachine('tmp_vm')
     x = x_sh.reconstruct(tmp_vm).value;print(x)
     
     # The paper's implementation only works on positive numbers, but we want negatives too!
-    # So, just shift tinysmpc's int64s into the positive range (int64 + -MIN_INT64).
+    # So, just shift TinySMPC's int64s into the positive range (int64 + -MIN_INT64).
     if pub < 0 or x < 0: pub += -MIN_INT64; x += -MIN_INT64
     
     # Decompose x into its bit representation, and share each bit independently

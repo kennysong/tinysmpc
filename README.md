@@ -50,7 +50,6 @@ Alice, Bob, and Charlie have jointly computed a function on their data, without 
 ## Status
 
 Todos:
-- [ ] Clean up package structure
 - [ ] Make `PrivateScalar` work for floats with fixed-point encoding
 - [ ] Implement common functions, e.g. sigmoid, exponential, ReLU (probably Taylor series)
 - [ ] Write basic tutorial notebook
@@ -65,6 +64,7 @@ Done:
 - [x] Support negative integers
 - [x] Implement shared comparison
 - [x] Update readme with three VMs
+- [x] Clean up package structure
 
 Not in scope:
 - [ ] Implement shared division

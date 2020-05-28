@@ -1,6 +1,6 @@
 # This module provides useful functions for operating on integers in a finite ring.
 #
-# (Any integer that is *shared* in tinysmpc must be an element of a finite ring.
+# (Any integer that is *shared* in TinySMPC must be an element of a finite ring.
 #  By default, this is the int64 ring, but we also support modulus prime rings.)
 
 # Mathematical note:

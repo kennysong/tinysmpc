@@ -1,6 +1,5 @@
-# This module defines multiplication on SharedScalars.
-#
-# To do so, we implement the SPDZ algorithm for multiplication [1].
+# This module defines multiplication on SharedScalars, using the SPDZ 
+# algorithm for multiplication [1].
 #
 # [1] https://bristolcrypto.blogspot.com/2016/10/what-is-spdz-part-2-circuit-evaluation.html
 

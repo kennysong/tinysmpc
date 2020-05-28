@@ -1,8 +1,8 @@
-# This module defines addition on SharedScalars.
+# This module defines addition on SharedScalars, using the SPDZ algorithm 
+# for addition [1].
 #
-# To do so, we implement the SPDZ algorithm for addition [1]. 
 # Technically, this method is extremely simple as it follows directly 
-# from additive sharing, and probably predates SPDZ.
+# from additive secret sharing, and likely predates SPDZ.
 #
 # [1] "Computations" on pg 6 of https://eprint.iacr.org/2011/535.pdf
 

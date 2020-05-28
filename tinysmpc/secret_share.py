@@ -1,3 +1,18 @@
+# This module defines how additive secret sharing works in TinySMPC:
+#  - how to create secret shares from a number
+#  - how to reconstruct the number from the shares
+#  - the internal Share class that represents a single secret share
+#
+# We use the simple additive secret sharing scheme that's compatible
+# with SPDZ. This is sort of a well-known "obvious" scheme, so has 
+# no canonical citation [1].
+#
+# However, you can read more about it in [2] and [3].
+#
+# [1] https://crypto.stackexchange.com/questions/68666/reference-for-additive-secret-sharing
+# [2] https://mortendahl.github.io/2017/06/04/secret-sharing-part1/
+# [3] https://cs.nyu.edu/courses/spring07/G22.3033-013/scribe/lecture01.pdf
+
 from .finite_ring import assert_is_element, mod, rand_element
 
 class Share():

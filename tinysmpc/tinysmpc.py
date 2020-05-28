@@ -1,5 +1,11 @@
+# This is TinySMPC's top-level module that defines its user-facing API:
+# the three classes VirtualMachine, PrivateScalar, and SharedScalar.
+#
+# For modularity, almost all of the behavior of these classes is implemented 
+# in functions imported from the other files here. Check them out!
+
 from .finite_ring import assert_is_element, mod, rand_element
-from .secret_share import n_to_shares, n_from_shares
+from .secret_share import n_from_shares, n_to_shares
 from .shared_addition import add_2sh, add_sh_pub
 from .shared_comparison import greater_than
 from .shared_multiplication import mult_2sh, mult_sh_pub
