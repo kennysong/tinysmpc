@@ -1,6 +1,7 @@
 from .finite_ring import assert_is_element, mod, rand_element
 from .secret_share import n_to_shares, n_from_shares
 from .shared_addition import add_2sh, add_sh_pub
+from .shared_comparison import greater_than
 from .shared_multiplication import mult_2sh, mult_sh_pub
 
 class VirtualMachine():
@@ -68,6 +69,11 @@ class SharedScalar():
     def __rmul__(self, other):
         '''Called by: other * self (when other is not a SharedScalar).'''
         return self.__mul__(other)
+    
+    def __gt__(self, other):
+        '''Called by: self > other. Only implemented when other is a public integer.'''
+        assert isinstance(other, int)
+        return greater_than(self, other)
     
     def __repr__(self):
         return 'SharedScalar\n - ' + '\n - '.join(map(str, self.shares))

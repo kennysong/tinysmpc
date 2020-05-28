@@ -5,7 +5,6 @@
 #
 # [1] Algorithm 3 in https://eprint.iacr.org/2018/442.pdf
 
-
 # Security note:
 #
 # The PrivateCompare algorithm [1] requires a bitwise share representation.
@@ -27,7 +26,6 @@
 #
 # Alternatively, you can use the _private_compare() function here directly. TODO
 
-
 # Small hack:
 #
 # In the other shared_* modules, we use the `type(sh)` hack. However,
@@ -37,7 +35,6 @@
 # Personally, I don't like this style, but it's the price to pay for modularity.
 # (Dependency-wise, these functions should really be part of tinysmpc.py, 
 #  but it's so much cleaner to split them out.)
-
 
 from .finite_ring import MIN_INT64
 from .secret_share import Share
@@ -52,7 +49,7 @@ def greater_than(x_sh, pub):
     # Reconstruct the private value on a temporary VM (see the Security Note above)
     from .tinysmpc import VirtualMachine
     tmp_vm = VirtualMachine('tmp_vm')
-    x = x_sh.reconstruct(tmp_vm).value
+    x = x_sh.reconstruct(tmp_vm).value;print(x)
     
     # The paper's implementation only works on positive numbers, but we want negatives too!
     # So, just shift tinysmpc's int64s into the positive range (int64 + -MIN_INT64).
@@ -60,7 +57,7 @@ def greater_than(x_sh, pub):
     
     # Decompose x into its bit representation, and share each bit independently
     x_sh = _share_bitwise(x, list(x_sh.owners))
-
+    
     return _private_compare(x_sh, pub)
 
 def _private_compare(x_sh, r, β=None):
@@ -120,7 +117,7 @@ def _private_compare(x_sh, r, β=None):
     p2 = VirtualMachine('p2')
     d = [d_sh.reconstruct(p2) for d_sh in d_shared]
     β_prime = any(ps.value == 0 for ps in d)  # (we break the abstraction of only operating on PrivateScalars a bit)
-    
+        
     # Return x > r
     return PrivateScalar(β ^ β_prime, p2)    
     

@@ -13,43 +13,45 @@ Create a few `VirtualMachines`.
 ```python
 alice = VirtualMachine('alice')
 bob = VirtualMachine('bob')
+charlie = VirtualMachine('charlie')
 ```
 
-Create secret numbers on Alice and Bob's machines.
+Create secret numbers on Alice, Bob, and Charlie's machines.
 
 ```python
 a = PrivateScalar(25, alice)
 b = PrivateScalar(50, bob)
+c = PrivateScalar(10, charlie)
 ```
 
-Distribute an encrypted fraction of each number to each machine (this uses additive secret sharing).
+Distribute an encrypted fraction of each number to each machine (this is secret sharing!).
 
 ```python
-shared_a = a.share([bob])
-shared_b = b.share([alice])
+shared_a = a.share([bob, charlie])
+shared_b = b.share([alice, charlie])
+shared_c = c.share([alice, bob])
 ```
 
 Compute any arithmetic function over the encrypted shares.
 
 ```python
-shared_output =  (shared_a * shared_b) - 5 * (shared_a + shared_b)
+shared_output = (shared_a * shared_b) - 5 * (shared_a + shared_c)
 ```
 
-Decrypt the function's output by sending all encrypted shares to Alice (or vice versa).
+Decrypt the function's output by sending all encrypted shares to Charlie (or anyone).
 
 ```python
-shared_output.reconstruct(alice)
->>> PrivateScalar(875, 'alice')
+shared_output.reconstruct(charlie)
+>>> PrivateScalar(1075, 'charlie')
 ```
 
-Alice and Bob have jointly computed a function over their data, but Alice has no idea what Bob's input was (and vice versa)!
+Alice, Bob, and Charlie have jointly computed a function on their data, without seeing anyone else's secret data!
 
 ## Status
 
 Todos:
+- [ ] Clean up package structure
 - [ ] Make `PrivateScalar` work for floats with fixed-point encoding
-- [ ] Implement shared division
-- [ ] Implement shared comparison
 - [ ] Implement common functions, e.g. sigmoid, exponential, ReLU (probably Taylor series)
 - [ ] Update readme with three VMs
 - [ ] Write basic tutorial notebook
@@ -62,7 +64,10 @@ Done:
 - [x] Implement shared multiplication
 - [x] Implement finite ring arithmetic for int64 and mod prime
 - [x] Support negative integers
+- [x] Implement shared comparison
 
+Not in scope:
+- [ ] Implement shared division
 
 ## Resources
 

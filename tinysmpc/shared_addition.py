@@ -6,7 +6,6 @@
 #
 # [1] "Computations" on pg 6 of https://eprint.iacr.org/2011/535.pdf
 
-
 # Small hack:
 # 
 # We can't import the SharedScalar class in this module as that would
@@ -16,7 +15,6 @@
 # SharedScalars here when doing arithmetic. To be able to do so, 
 # we can use `type(sh)` to get access to the SharedScalar class &
 # constructor.
-
 
 def add_2sh(sh1, sh2):
     '''Implements addition on two SharedScalars.'''
