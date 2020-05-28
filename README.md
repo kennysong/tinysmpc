@@ -51,6 +51,7 @@ Todos:
 - [ ] Implement shared division
 - [ ] Implement shared comparison
 - [ ] Implement common functions, e.g. sigmoid, exponential, ReLU (probably Taylor series)
+- [ ] Update readme with three VMs
 - [ ] Write basic tutorial notebook
 - [ ] Clean up intermediate `Shares` used in arithmetic operations from `VirtualMachines`
 
@@ -59,6 +60,8 @@ Done:
 - [x] Share a `PrivateScalar` into a `SharedScalar`
 - [x] Implement shared addition
 - [x] Implement shared multiplication
+- [x] Implement finite ring arithmetic for int64 and mod prime
+- [x] Support negative integers
 
 
 ## Resources
