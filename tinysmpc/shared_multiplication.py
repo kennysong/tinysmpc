@@ -1,5 +1,10 @@
 # This module defines multiplication on SharedScalars.
-# 
+#
+# To do so, we implement the SPDZ algorithm for multiplication [1].
+#
+# [1] https://bristolcrypto.blogspot.com/2016/10/what-is-spdz-part-2-circuit-evaluation.html
+
+
 # Small hack:
 # 
 # We can't import the SharedScalar class in this module as that would
@@ -10,15 +15,13 @@
 # we can use `type(sh)` to get access to the SharedScalar class &
 # constructor.
 
+
 from .finite_ring import mod, rand_element
 from .secret_share import n_to_shares
 from random import choice
 
 def mult_2sh(sh1, sh2):
     '''Implements multiplication on two SharedScalars.'''
-    # To do the multiplication, we do the SPDZ protocol as described in:
-    # https://bristolcrypto.blogspot.com/2016/10/what-is-spdz-part-2-circuit-evaluation.html
-    
     # Make sure that these two SharedScalars are compatible 
     sh1._assert_can_operate(sh2)
     

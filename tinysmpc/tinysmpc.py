@@ -32,14 +32,14 @@ class SharedScalar():
     '''A class that tracks all secret shares that corresponds to one PrivateScalar.
        It supports *secure* arithmetic with other SharedScalars or integers (+, -, *).'''
     def __init__(self, shares, Q=None):
-        if Q is None: assert all(share.Q == Q for share in shares)
+        assert all(share.Q == Q for share in shares)
         self.shares = shares
         self.share_of = {share.owner: share for share in shares}
         self.owners = {share.owner for share in shares}
         self.Q = Q
         
     def reconstruct(self, owner):
-        '''Send all shares to one machine, and reconstruct its hidden value as a PrivateScalar.'''
+        '''Send all shares to one machine, and reconstruct the hidden value as a PrivateScalar.'''
         value = n_from_shares(self.shares, owner, self.Q)
         return PrivateScalar(value, owner)
         

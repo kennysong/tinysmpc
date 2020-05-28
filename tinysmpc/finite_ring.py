@@ -2,7 +2,8 @@
 #
 # (Any integer that is *shared* in tinysmpc must be an element of a finite ring.
 #  By default, this is the int64 ring, but we also support modulus prime rings.)
-#
+
+
 # Mathematical note:
 #
 # For additive secret sharing to work, we need all of the numbers we're working with
@@ -21,6 +22,7 @@
 # [1] 6.1 in https://cs.nyu.edu/courses/spring07/G22.3033-013/scribe/lecture01.pdf
 # [2] https://math.stackexchange.com/q/3692052/28855
 # [3] https://mortendahl.github.io/2017/09/03/the-spdz-protocol-part1/
+
 
 from random import randint, randrange
 
