@@ -53,7 +53,6 @@ Todos:
 - [ ] Clean up package structure
 - [ ] Make `PrivateScalar` work for floats with fixed-point encoding
 - [ ] Implement common functions, e.g. sigmoid, exponential, ReLU (probably Taylor series)
-- [ ] Update readme with three VMs
 - [ ] Write basic tutorial notebook
 - [ ] Clean up intermediate `Shares` used in arithmetic operations from `VirtualMachines`
 
@@ -65,6 +64,7 @@ Done:
 - [x] Implement finite ring arithmetic for int64 and mod prime
 - [x] Support negative integers
 - [x] Implement shared comparison
+- [x] Update readme with three VMs
 
 Not in scope:
 - [ ] Implement shared division
