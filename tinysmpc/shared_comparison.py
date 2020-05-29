@@ -47,10 +47,12 @@ L = 64  # Number of bits of the integers we're using
 def greater_than(x_sh, pub):
     '''Provides the high-level API for comparing x_sh (SharedScalar) > pub (int).
        This basically does some TinySMPC-specific setup before calling PrivateCompare.'''
+    assert len(x_sh.owners) == 2, 'PrivateCompare only works for 2-party shares'
+    
     # Reconstruct the private value on a temporary VM (see the Security Note above)
     from .tinysmpc import VirtualMachine
     tmp_vm = VirtualMachine('tmp_vm')
-    x = x_sh.reconstruct(tmp_vm).value;print(x)
+    x = x_sh.reconstruct(tmp_vm).value
     
     # The paper's implementation only works on positive numbers, but we want negatives too!
     # So, just shift TinySMPC's int64s into the positive range (int64 + -MIN_INT64).

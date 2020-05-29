@@ -76,6 +76,13 @@ class SharedScalar():
         '''Called by: other * self (when other is not a SharedScalar).'''
         return self.__mul__(other)
     
+    def __pow__(self, other):
+        '''Called by: self ** other. Only implemented when other is a public integer > 0.'''
+        assert isinstance(other, int) and other > 0
+        res = self
+        for _ in range(other-1): res *= self
+        return res
+    
     def __gt__(self, other):
         '''Called by: self > other. Only implemented when other is a public integer.'''
         assert isinstance(other, int)
