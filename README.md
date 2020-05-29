@@ -6,7 +6,7 @@ This code is intended for educational rather than practical purposes. It exposes
 
 ## Overview
 
-*The goal is to allow multiple users/machines to collaboratively compute a function over their secret data (e.g. average, equality, logistic regression), while not exposing anyone's secret data.*
+*The goal is to allow multiple users/computers to collaboratively compute a function over their secret data (e.g. average, equality, logistic regression), while not exposing anyone's secret data.*
 
 Create a few `VirtualMachines` (think: separate computers that can communicate to each other).
 
