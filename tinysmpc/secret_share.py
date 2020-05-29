@@ -13,6 +13,7 @@
 # [2] https://mortendahl.github.io/2017/06/04/secret-sharing-part1/
 # [3] https://cs.nyu.edu/courses/spring07/G22.3033-013/scribe/lecture01.pdf
 
+from .fixed_point import fixed_point, float_point
 from .finite_ring import assert_is_element, mod, rand_element
 
 class Share():

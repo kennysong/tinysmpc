@@ -50,7 +50,6 @@ Alice, Bob, and Charlie have jointly computed a function on their data, without 
 ## Status
 
 Todos:
-- [ ] Make `PrivateScalar` work for floats with fixed-point encoding
 - [ ] Implement common functions, e.g. sigmoid, exponential (probably Taylor series)
 - [ ] Write basic tutorial notebook
 - [ ] Clean up intermediate `Shares` used in arithmetic operations from `VirtualMachines`
@@ -66,6 +65,7 @@ Done:
 - [x] Update readme with three VMs
 - [x] Clean up package structure
 - [x] Implement power, relu
+- [x] Make `PrivateScalar` work for floats with fixed-point encoding
 
 Not in scope:
 - [ ] Implement shared division
