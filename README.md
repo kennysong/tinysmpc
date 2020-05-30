@@ -53,7 +53,7 @@ TinySMPC implements [additive secret sharing](https://cs.nyu.edu/courses/spring0
 
 On top of additive secret sharing, we implement several [SMPC](https://en.wikipedia.org/wiki/Secure_multi-party_computation) protocols, which allow us to directly perform computations on encrypted data.
 
-Here's a summary of the encrypted operations that TinySMPC provides.
+Here's a summary of the encrypted operations that TinySMPC supports.
 
 |                    | Supported?              | Implementation                                                                          |
 |--------------------|-------------------------|-----------------------------------------------------------------------------------------|
@@ -63,3 +63,21 @@ Here's a summary of the encrypted operations that TinySMPC provides.
 | **Division**       | ❌ (too complicated)     | Possible with [SecureNN](https://eprint.iacr.org/2018/442.pdf).                                                                                       |
 | **Exponentiation**       | ✅ (public integer only)     | In terms of multiplication.                                                                                       |
 | **Greater Than**   | ✅ (public integer only) | [SecureNN](https://eprint.iacr.org/2018/442.pdf) algorithm. <br/> See [shared_comparison.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_comparison.py)     |
+
+## Repo Structure
+
+Top-level:
+
+1. [`tutorial.ipynb`](tutorial.ipynb): An easy tutorial notebook for SMPC and TinySMPC.
+1. [`tests.ipynb`](tests.ipynb): Test notebook to verify that our SMPC protocols work correctly.
+1. [`dev_requirements.txt`](dev_requirements.txt): TinySMPC requires no external modules to run. This file just sets up my dev environment.
+
+In the `tinysmpc` directory:
+
+1. [`tinysmpc.py`](tinysmpc/tinysmpc.py): The top-level module with the user-facing API (`VirtualMachine`, `PrivateScalar`, `SharedScalar`).
+1. [`finite_ring.py`](tinysmpc/finite_ring.py): Useful functions for operating on integers in a finite ring.
+1. [`fixed_point.py`](tinysmpc/fixed_point.py): Fixed-point encoding for floats, so we can do SMPC on floats.
+1. [`secret_sharing.py`](tinysmpc/secret_sharing.py): The additive secret sharing protocol.
+1. [`shared_addition.py`](tinysmpc/shared_addition.py): The SPDZ protocol for addition of `SharedScalars`.
+1. [`shared_multiplication.py`](tinysmpc/shared_multiplication.py): The SPDZ protocol for multiplication of `SharedScalars`.
+1. [`shared_comparison.py`](tinysmpc/shared_comparison.py): The SecureNN protocol for comparison of a `SharedScalar` and a public integer.
