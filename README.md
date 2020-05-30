@@ -4,6 +4,14 @@ A tiny library for [secure multi-party computation](https://en.wikipedia.org/wik
 
 This code is intended for educational rather than practical purposes. It exposes a simple API, and the underlying implementation is written to be understandable and minimalistic. 
 
+## Get Started
+
+Try the [tutorial notebook](tutorial.ipynb), or run it in your browser with DeepNote: 
+
+[<img height="24" src="https://beta.deepnote.com/buttons/launch-in-deepnote.svg">](
+https://beta.deepnote.org/launch?template=deepnote&url=https%3A%2F%2Fgithub.com%2Fkennysong%2Ftinysmpc%2Fblob%2Fmaster%2Ftutorial.ipynb)
+
+
 ## Overview
 
 *The goal is to allow multiple users/computers to collaboratively compute a function over their secret data (e.g. average, equality, logistic regression), while not exposing anyone's secret data.*
