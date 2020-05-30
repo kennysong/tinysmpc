@@ -8,7 +8,7 @@ This code is intended for educational rather than practical purposes. It exposes
 
 Try the [tutorial notebook](tutorial.ipynb), or run it in your browser with Deepnote: 
 
-[<img height="24" src="https://beta.deepnote.com/buttons/launch-in-deepnote.svg">](
+[<img height="28" src="https://beta.deepnote.com/buttons/launch-in-deepnote.svg">](
 https://beta.deepnote.org/launch?template=deepnote&url=https%3A%2F%2Fgithub.com%2Fkennysong%2Ftinysmpc%2Fblob%2Fmaster%2Ftutorial.ipynb)
 
 
