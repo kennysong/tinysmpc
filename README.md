@@ -32,7 +32,7 @@ shared_b = b.share([alice, bob, charlie])
 shared_c = c.share([alice, bob, charlie])
 ```
 
-Compute any arithmetic function over the encrypted shares.
+Compute some arithmetic function directly on the encrypted shares.
 
 ```python
 shared_output = (shared_a * shared_b) - 5 * (shared_a + shared_c)
