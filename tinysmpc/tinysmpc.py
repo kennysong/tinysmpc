@@ -29,7 +29,7 @@ class PrivateScalar():
 
     def share(self, machines, Q=None):
         '''Split self.value into secret shares and distribute them across machines (tracked in a SharedScalar).'''
-        shares = n_to_shares(self.value, machines + [self.owner], Q)
+        shares = n_to_shares(self.value, machines, Q)
         return SharedScalar(shares, Q)
     
     def __repr__(self):

@@ -27,9 +27,9 @@ c = PrivateScalar(10, charlie)
 Distribute an encrypted fraction of each number to each machine (this is secret sharing!).
 
 ```python
-shared_a = a.share([bob, charlie])
-shared_b = b.share([alice, charlie])
-shared_c = c.share([alice, bob])
+shared_a = a.share([alice, bob, charlie])
+shared_b = b.share([alice, bob, charlie])
+shared_c = c.share([alice, bob, charlie])
 ```
 
 Compute any arithmetic function over the encrypted shares.

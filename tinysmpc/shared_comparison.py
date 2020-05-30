@@ -129,7 +129,7 @@ def _share_bitwise(n, machines):
     from .tinysmpc import PrivateScalar
     bits = _get_bits(n)
     ps_bits = [PrivateScalar(bit, machines[0]) for bit in bits]
-    sh_bits = [ps_bit.share(machines[1:], P) for ps_bit in ps_bits]
+    sh_bits = [ps_bit.share(machines, P) for ps_bit in ps_bits]
     return sh_bits
 
 def _get_bits(n):
