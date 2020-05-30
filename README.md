@@ -47,31 +47,19 @@ shared_output.reconstruct(charlie)
 
 Alice, Bob, and Charlie have jointly computed a function on their data, without seeing anyone else's secret data!
 
-## Status
+## Implementation
 
-Todos:
-- [ ] Implement common functions, e.g. sigmoid, exponential (probably Taylor series)
-- [ ] Write basic tutorial notebook
-- [ ] Clean up intermediate `Shares` used in arithmetic operations from `VirtualMachines`
+TinySMPC implements [additive secret sharing](https://cs.nyu.edu/courses/spring07/G22.3033-013/scribe/lecture01.pdf) for creating encrypted shares on private data.
 
-Done:
-- [x] Get `PrivateScalars` onto `VirtualMachines`
-- [x] Share a `PrivateScalar` into a `SharedScalar`
-- [x] Implement shared addition
-- [x] Implement shared multiplication
-- [x] Implement finite ring arithmetic for int64 and mod prime
-- [x] Support negative integers
-- [x] Implement shared comparison
-- [x] Update readme with three VMs
-- [x] Clean up package structure
-- [x] Implement power, relu
-- [x] Make `PrivateScalar` work for floats with fixed-point encoding
+On top of additive secret sharing, we implement several [SMPC](https://en.wikipedia.org/wiki/Secure_multi-party_computation) protocols, which allow us to directly perform computations on encrypted data.
 
-Not in scope:
-- [ ] Implement shared division
+Here's a summary of the encrypted operations that TinySMPC provides.
 
-## Resources
-
-- [Bristol Cryptography Club: What is SPDZ?](https://bristolcrypto.blogspot.com/2016/10/what-is-spdz-part-2-circuit-evaluation.html)
-- [Morten Dahl: The SPDZ Protocol](https://mortendahl.github.io/2017/09/03/the-spdz-protocol-part1/)
-- [Multiparty Computation from Somewhat Homomorphic Encryption](https://eprint.iacr.org/2011/535.pdf) (original SPDZ paper, much harder to read)
+|                    | Supported?              | Implementation                                                                          |
+|--------------------|-------------------------|-----------------------------------------------------------------------------------------|
+| **Addition**       | ✅                       | [SPDZ](https://eprint.iacr.org/2011/535.pdf) algorithm. <br/> See [shared_addition.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_addition.py)             |
+| **Subtraction**    | ✅                       | In terms of addition and multiplication.                                                 |
+| **Multiplication** | ✅                       | [SPDZ](https://eprint.iacr.org/2011/535.pdf) algorithm.  <br/> See [shared_multiplication.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_multiplication.py) |
+| **Division**       | ❌ (too complicated)     | Possible with [SecureNN](https://eprint.iacr.org/2018/442.pdf).                                                                                       |
+| **Exponentiation**       | ✅ (public integer only)     | In terms of multiplication.                                                                                       |
+| **Greater Than**   | ✅ (public integer only) | [SecureNN](https://eprint.iacr.org/2018/442.pdf) algorithm. <br/> See [shared_comparison.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_comparison.py)     |
