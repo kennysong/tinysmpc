@@ -14,7 +14,7 @@
 # constructor.
 
 from .finite_ring import mod, rand_element
-from .secret_share import n_to_shares
+from .secret_sharing import n_to_shares
 from random import choice
 
 def mult_2sh(sh1, sh2):
@@ -52,4 +52,3 @@ def mult_sh_pub(sh, pub):
     # To do the multiplication, we multiply the integer with all shares
     prod_shares = [share * pub for share in sh.shares]
     return type(sh)(prod_shares, Q=sh.Q)
-    

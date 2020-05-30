@@ -38,7 +38,7 @@
 #  but it's so much cleaner to split them out.)
 
 from .finite_ring import MIN_INT64
-from .secret_share import Share
+from .secret_sharing import Share
 from random import random, randint, shuffle
 
 P = 67  # Smaller prime field size to encode bit values
