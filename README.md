@@ -78,7 +78,6 @@ Top-level:
 
 1. [`tutorial.ipynb`](tutorial.ipynb): An easy tutorial notebook for SMPC and TinySMPC.
 1. [`tests.ipynb`](tests.ipynb): Test notebook to verify that our SMPC protocols work correctly.
-1. [`dev_requirements.txt`](dev_requirements.txt): TinySMPC requires no external modules to run. This file just sets up my dev environment.
 
 In the `tinysmpc` directory:
 
