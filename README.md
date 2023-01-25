@@ -1,20 +1,20 @@
-# TinySMPC 🛡️
+# Private Multiparty State Machine
+
+This is a fork of [TinySMPC](https://github.com/kennysong/tinysmpc).
 
 A tiny library for [secure multi-party computation](https://en.wikipedia.org/wiki/Secure_multi-party_computation), in pure Python!
 
-This code is intended for educational rather than practical purposes. It exposes a simple API, and the underlying implementation is written to be understandable and minimalistic. 
+This code is intended for educational rather than practical purposes. It exposes a simple API, and the underlying implementation is written to be understandable and minimalistic.
 
-## Get Started
+<!-- ## Get Started
 
 Read the [short tutorial notebook](tutorial.ipynb), or run it in your browser with Deepnote:
 
-[<img height="28" src="https://beta.deepnote.com/buttons/launch-in-deepnote.svg">](
-https://beta.deepnote.com/launch?template=deepnote&url=https%3A%2F%2Fgithub.com%2Fkennysong%2Ftinysmpc%2Fblob%2Fmaster%2Ftutorial.ipynb)
-
+[<img height="28" src="https://beta.deepnote.com/buttons/launch-in-deepnote.svg">](https://beta.deepnote.com/launch?template=deepnote&url=https%3A%2F%2Fgithub.com%2Fkennysong%2Ftinysmpc%2Fblob%2Fmaster%2Ftutorial.ipynb)
 
 ## Overview
 
-*The goal is to allow multiple users/computers to collaboratively compute a function over their secret data (e.g. average, equality, logistic regression), while not exposing anyone's secret data.*
+_The goal is to allow multiple users/computers to collaboratively compute a function over their secret data (e.g. average, equality, logistic regression), while not exposing anyone's secret data._
 
 Create a few `VirtualMachines` (think: separate computers that can communicate to each other).
 
@@ -63,13 +63,13 @@ On top of additive secret sharing, we implement several [SMPC](https://en.wikipe
 
 Here's a summary of the encrypted operations that TinySMPC supports.
 
-|                    | Supported?              | Implementation                                                                          |
-|--------------------|-------------------------|-----------------------------------------------------------------------------------------|
+|                    | Supported?               | Implementation                                                                                                                                                                    |
+| ------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Addition**       | ✅                       | [SPDZ](https://eprint.iacr.org/2011/535.pdf) algorithm. <br/> See [shared_addition.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_addition.py)             |
-| **Subtraction**    | ✅                       | In terms of addition and multiplication.                                                 |
-| **Multiplication** | ✅                       | [SPDZ](https://eprint.iacr.org/2011/535.pdf) algorithm.  <br/> See [shared_multiplication.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_multiplication.py) |
-| **Division**       | ❌ (too complicated)     | Possible with [SecureNN](https://eprint.iacr.org/2018/442.pdf).                                                                                       |
-| **Exponentiation**       | ✅ (public integer only)     | In terms of multiplication.                                                                                       |
+| **Subtraction**    | ✅                       | In terms of addition and multiplication.                                                                                                                                          |
+| **Multiplication** | ✅                       | [SPDZ](https://eprint.iacr.org/2011/535.pdf) algorithm. <br/> See [shared_multiplication.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_multiplication.py) |
+| **Division**       | ❌ (too complicated)     | Possible with [SecureNN](https://eprint.iacr.org/2018/442.pdf).                                                                                                                   |
+| **Exponentiation** | ✅ (public integer only) | In terms of multiplication.                                                                                                                                                       |
 | **Greater Than**   | ✅ (public integer only) | [SecureNN](https://eprint.iacr.org/2018/442.pdf) algorithm. <br/> See [shared_comparison.py](https://github.com/kennysong/tinysmpc/blob/master/tinysmpc/shared_comparison.py)     |
 
 ## Repo Structure
@@ -87,4 +87,4 @@ In the `tinysmpc` directory:
 1. [`secret_sharing.py`](tinysmpc/secret_sharing.py): The additive secret sharing protocol.
 1. [`shared_addition.py`](tinysmpc/shared_addition.py): The SPDZ protocol for addition of `SharedScalars`.
 1. [`shared_multiplication.py`](tinysmpc/shared_multiplication.py): The SPDZ protocol for multiplication of `SharedScalars`.
-1. [`shared_comparison.py`](tinysmpc/shared_comparison.py): The SecureNN protocol for comparison of a `SharedScalar` and a public integer.
+1. [`shared_comparison.py`](tinysmpc/shared_comparison.py): The SecureNN protocol for comparison of a `SharedScalar` and a public integer. -->
