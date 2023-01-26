@@ -55,3 +55,14 @@ using DPF we essentially select a column from the table above. e.g. when the cli
 | **STATE 1** | STATE 3       |
 | **STATE 2** | STATE 3       |
 | **STATE 3** | STATE 3       | -->
+
+| **STATE** | **INPUT ('a'=0 and 'b'=1)** | **NEXT STATE ** |
+| --------- | --------------------------- | --------------- |
+| 0         | 0                           | 2               |
+| 1         | 0                           | 3               |
+| 2         | 0                           | 3               |
+| 3         | 0                           | 3               |
+| 0         | 1                           | 3               |
+| 1         | 1                           | 3               |
+| 2         | 1                           | 1               |
+| 3         | 1                           | 3               |
