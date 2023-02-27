@@ -4,7 +4,6 @@
 # For modularity, almost all of the behavior of these classes is implemented 
 # in functions imported from the other files here. Check them out!
 
-from .finite_ring import assert_is_element, mod, rand_element
 from .secret_sharing import n_from_shares, n_to_shares
 from .shared_addition import add_2sh, add_sh_pub
 from .shared_comparison import greater_than
